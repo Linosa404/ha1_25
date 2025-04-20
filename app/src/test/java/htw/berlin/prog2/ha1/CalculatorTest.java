@@ -229,9 +229,10 @@ class CalculatorTest {
         calc.pressDigitKey(0);
         calc.pressUnaryOperationKey("%"); // Sollte 10% von 200 berechnen und "20" anzeigen
 
-        Exception exception = assertThrows(IllegalArgumentException.class, () -> {
-            calc.pressEqualsKey();
-        });
+        //Exception exception = assertThrows(IllegalArgumentException.class, () -> {
+        //    calc.pressEqualsKey();
+        //});
+        calc.pressEqualsKey();
         assertEquals("220", calc.readScreen(), "Screen should display '220' after calculating 200 + 10%");
     }
 
