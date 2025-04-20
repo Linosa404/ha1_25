@@ -90,5 +90,116 @@ class CalculatorTest {
 
 
     //TODO hier weitere Tests erstellen
-}
+        @Test
+    @DisplayName("Initial screen should display '0'")
+    void testInitialScreenValue() {
+        Calculator calc = new Calculator();
 
+        String expected = "0";
+        String actual = calc.readScreen();
+        assertEquals(expected, actual, "Initial screen value should be '0'");
+    }
+
+    @Test
+    @DisplayName("Single press of clear key resets screen to '0'")
+    void testPressClearKeyOnce() {
+        Calculator calc = new Calculator();
+
+        calc.pressDigitKey(7);
+        String expected = "7";
+        String actual = calc.readScreen();
+        assertEquals(expected, actual, "Screen should display '7' after pressing 7 key");
+    
+        calc.pressClearKey();
+        expected = "0";
+        actual = calc.readScreen();
+        assertEquals(expected,actual, "Screen should display '0' after pressing clear key once");
+    }
+
+    @Test
+    @DisplayName("Double press of clear key resets calculator to initial state")
+    void testPressClearKeyTwice() {
+        Calculator calc = new Calculator();
+        calc.pressDigitKey(7);
+        calc.pressBinaryOperationKey("+");
+        calc.pressClearKey();
+        calc.pressClearKey();
+        String expected = "0";
+        String actual = calc.readScreen();
+
+        assertEquals(expected, actual, "Screen should display '0' after pressing clear key twice");
+    }
+
+    @Test
+    @DisplayName("Binary subtraction operation")
+    void testBinaryOperationSubtraction() {
+        Calculator calc = new Calculator();
+        calc.pressDigitKey(9);
+        calc.pressBinaryOperationKey("-");
+        calc.pressDigitKey(3);
+        calc.pressEqualsKey();
+
+        String expected = "6";
+        String actual = calc.readScreen();
+        assertEquals(expected, actual, "Screen should display '6' after 9 - 3");
+    }
+
+    @Test
+    @DisplayName("Binary multiplication operation")
+    void testBinaryOperationMultiplication() {
+        Calculator calc = new Calculator();
+        calc.pressDigitKey(6);
+        calc.pressBinaryOperationKey("x");
+        calc.pressDigitKey(7);
+        calc.pressEqualsKey();
+
+        String expected = "42";
+        String actual = calc.readScreen();
+        assertEquals(expected, actual, "Screen should display '42' after 6 x 7");
+    }
+
+    @Test
+    @DisplayName("Binary division operation")
+    void testBinaryOperationDivision() {
+        Calculator calc = new Calculator();
+        calc.pressDigitKey(8);
+        calc.pressBinaryOperationKey("/");
+        calc.pressDigitKey(2);
+        calc.pressEqualsKey();
+
+        String expected = "4";
+        String actual = calc.readScreen();
+        assertEquals(expected, actual, "Screen should display '4' after 8 / 2");
+    }
+
+    @Test
+    @DisplayName("Inverse unary operation")
+    void testUnaryOperationInverse() {
+        Calculator calc = new Calculator();
+        calc.pressDigitKey(4);
+        calc.pressUnaryOperationKey("1/x");
+
+        String expected = "0.25";
+        String actual = calc.readScreen();
+        assertEquals(expected, actual, "Screen should display '0.25' after 1/4");
+    }
+
+    @Test
+    @DisplayName("Pressing negative key changes sign of the number")
+    void testPressNegativeKey() {
+        Calculator calc = new Calculator();
+
+        calc.pressDigitKey(3);
+        calc.pressNegativeKey();
+
+        String expected = "-3";
+        String actual = calc.readScreen();
+        assertEquals(expected, actual, "Screen should display '-3' after pressing negative key");
+
+        calc.pressNegativeKey();
+        expected = "3";
+        actual = calc.readScreen();
+        assertEquals(expected, actual, "Screen should display '3' after pressing negative key again");
+    }
+ 
+}
