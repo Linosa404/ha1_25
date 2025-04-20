@@ -201,5 +201,38 @@ class CalculatorTest {
         actual = calc.readScreen();
         assertEquals(expected, actual, "Screen should display '3' after pressing negative key again");
     }
- 
+
+// Aufgabe 2 
+    @Test
+    @DisplayName("Repeated equals key should repeat last operation with the last operand")
+    void testRepeatedEqualsKey() {
+    Calculator calc = new Calculator();
+    calc.pressDigitKey(5);
+    calc.pressBinaryOperationKey("+");
+    calc.pressDigitKey(3);
+    calc.pressEqualsKey(); // Ergebnis sollte 8 sein
+    calc.pressEqualsKey(); // Ergebnis sollte 11 sein (8 + 3)
+    String expected = "11";
+    String actual = calc.readScreen();
+    assertEquals(expected, actual, "Screen should display '11' after pressing '=' repeatedly with '+ 3' operation");
+    }
+
+    @Test
+    @DisplayName("Percentage key applies correctly after binary operation, Percentage key without a prior binary operation throws an exception")
+    void testPercentageAfterBinaryOperation() {
+        Calculator calc = new Calculator();
+        calc.pressDigitKey(2);
+        calc.pressDigitKey(0);
+        calc.pressDigitKey(0);
+        calc.pressBinaryOperationKey("+");
+        calc.pressDigitKey(1);
+        calc.pressDigitKey(0);
+        calc.pressUnaryOperationKey("%"); // Sollte 10% von 200 berechnen und "20" anzeigen
+
+        Exception exception = assertThrows(IllegalArgumentException.class, () -> {
+            calc.pressEqualsKey();
+        });
+        assertEquals("220", calc.readScreen(), "Screen should display '220' after calculating 200 + 10%");
+    }
+
 }
